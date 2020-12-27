@@ -9,7 +9,7 @@ const main = async () => {
   connectDB();
 
   app.use(express.json());
-  // app.use(morgan("dev"));
+  app.use(morgan("dev"));
 
   if (process.env.NODE_ENV == "production") {
     app.use(express.static("client/build"));
