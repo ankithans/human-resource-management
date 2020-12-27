@@ -1,18 +1,14 @@
 const express = require("express");
 const morgan = require("morgan");
-require("dotenv").config;
+require("dotenv").config();
+const connectDB = require("./services/db");
 
 const main = async () => {
   const app = express();
+  connectDB();
 
   app.use(express.json());
   app.use(morgan("dev"));
-
-  app.get("/", (req, res) => {
-    return res.status(200).json({
-      message: "server is up",
-    });
-  });
 
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
