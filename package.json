@@ -7,7 +7,7 @@
     "start": "node ./api/index.js",
     "server": "nodemon ./api/index.js",
     "client": "cd client && yarn start",
-    "clientinstall": "yarn add --prefix client",
+    "clientinstall": "yarn --prefix client",
     "dev": "concurrently \"yarn server\" \"yarn client\"",
     "heroku-postbuild": "yarn --prefix client && yarn build --prefix client"
   },
