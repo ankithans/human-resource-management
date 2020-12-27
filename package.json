@@ -7,8 +7,9 @@
     "start": "node ./api/index.js",
     "server": "nodemon ./api/index.js",
     "client": "cd client && yarn start",
+    "clientinstall": "yarn add --prefix client",
     "dev": "concurrently \"yarn server\" \"yarn client\"",
-    "postinstall": "cd client && yarn && yarn build"
+    "heroku-postbuild": "yarn add --prefix client && yarn build --prefix client"
   },
   "repository": {
     "type": "git",
