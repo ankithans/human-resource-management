@@ -8,7 +8,7 @@
     "server": "nodemon ./api/index.js",
     "client": "cd client && yarn start",
     "dev": "concurrently \"yarn server\" \"yarn client\"",
-    "postinstall": "cd client && yarn"
+    "postinstall": "cd client && yarn build"
   },
   "repository": {
     "type": "git",
