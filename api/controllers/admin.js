@@ -1,56 +1,27 @@
-const jwt = require("jsonwebtoken");
+const { validationResult } = require("express-validator");
+const { giveToken } = require("../services/giveToken");
+const { errorHandler } = require("../services/errorHandler");
 const Admin = require("../models/admin");
 
 // @route   POST api/v1/admin/login
 // @dsc     Login a admin
 // @access  Public
 exports.loginAdmin = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return errorHandler(res, errors.array(), 400);
+  }
   try {
     const { email, password } = req.body;
     const admin = await Admin.findOne({ email });
-    console.log(admin);
     if (!admin) {
-      return res.status(404).json({
-        success: false,
-        error: "admin not found",
-      });
+      return errorHandler(res, "admin not found", 404);
     }
     if (admin.password != password) {
-      return res.status(401).json({
-        success: false,
-        error: "incorrect password",
-      });
+      return errorHandler(res, "incorrect password", 401);
     }
     giveToken(admin, res);
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      error: "Server Error",
-    });
+    return errorHandler(res, "Server Error", 500);
   }
 };
-
-function giveToken(user, res) {
-  const payload = {
-    user: {
-      id: user.id,
-    },
-  };
-
-  jwt.sign(
-    payload,
-    process.env.JWT_SECRET,
-    {
-      expiresIn: 360000000,
-    },
-    (err, token) => {
-      if (err) throw err;
-
-      return res.status(200).json({
-        success: true,
-        token: token,
-        userId: user.id,
-      });
-    }
-  );
-}
