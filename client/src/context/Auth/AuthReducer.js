@@ -17,6 +17,12 @@ export default (state, action) => {
         isLoggedIn: true,
         loading: false,
       };
+    case "ADMIN_LOGOUT":
+      return {
+        ...state,
+        isLoggedIn: false,
+        loading: false,
+      };
     default:
       return state;
   }

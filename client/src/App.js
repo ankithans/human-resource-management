@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { AuthContext } from "./context/Auth/AuthProvider";
 import AdminLogin from "./components/Admin/AdminLogin";
 import "./tailwind.output.css";
+import { AdminDashboard } from "./components/Admin/AdminDashboard";
 
 function App() {
   const { isLoggedIn } = useContext(AuthContext);
@@ -13,8 +14,9 @@ function App() {
         <Route exact path='/admin'>
           {isLoggedIn ? <Redirect to='/' /> : <AdminLogin />}
         </Route>
+
         <Route path='/'>
-          <div>Hello</div>
+          {isLoggedIn ? <AdminDashboard /> : <Redirect to='/admin' />}
         </Route>
       </Router>
     </>

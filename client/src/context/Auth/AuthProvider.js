@@ -45,6 +45,19 @@ export const AuthProvider = ({ children }) => {
       });
     }
   }
+  async function logout() {
+    dispatch({
+      type: "ADMIN_LOGIN_LOADING",
+    });
+
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("token");
+
+    dispatch({
+      type: "ADMIN_LOGOUT",
+    });
+    console.log(`Logged Out Successfully`);
+  }
 
   return (
     <AuthContext.Provider
@@ -52,6 +65,7 @@ export const AuthProvider = ({ children }) => {
         isLoggedIn: state.isLoggedIn,
         loading: state.loading,
         adminLogin,
+        logout,
       }}
     >
       {children}
