@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { SignInHeader } from "../shared/SignInHeader";
 import { Button } from "../shared/Button";
 import { TextBox } from "../shared/TextBox";
+import { AuthContext } from "../../context/Auth/AuthProvider";
 
 export default function AdminLogin() {
+  const { adminLogin } = useContext(AuthContext);
+
+  useEffect(() => {
+    adminLogin({
+      email: "admin@admin.com",
+      password: "admin@123",
+    });
+  }, []);
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px8'>
       <div className='max-w-md w-full space-y-8'>

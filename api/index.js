@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const { join } = require("path");
+const cors = require("cors");
 require("dotenv").config();
 const connectDB = require("./services/db");
 
@@ -8,6 +9,7 @@ const main = async () => {
   const app = express();
   connectDB();
 
+  app.use(cors());
   app.use(express.json());
   app.use(morgan("dev"));
 
