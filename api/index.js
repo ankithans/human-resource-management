@@ -1,6 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
-const path = require("path");
+const { join } = require("path");
 require("dotenv").config();
 const connectDB = require("./services/db");
 
@@ -12,9 +12,9 @@ const main = async () => {
   app.use(morgan("dev"));
 
   if (process.env.NODE_ENV == "production") {
-    app.use(express.static("client/build"));
+    app.use(express.static(join(__dirname, "..", "client", "build")));
     app.get("/*", (req, res) =>
-      res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+      res.sendFile(join(__dirname, "..", "client", "build", "index.html"))
     );
   }
 
