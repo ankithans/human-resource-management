@@ -10,7 +10,7 @@ export default function AdminLogin() {
         <SignInHeader
           link='/'
           subLabel='sign up for a new account'
-          label='Sign in to your account'
+          label='Admin Sign In'
         />
         <form className='mt-8 space-y-6' action='#' method='POST'>
           <input type='hidden' name='remember' value='true' />
