@@ -4,7 +4,7 @@ import AuthReducer from "./AuthReducer";
 
 // Initial state
 const initialState = {
-  isLoggedIn: localStorage.getItem("isLoggedIn") == "true" ? true : false,
+  isLoggedIn: localStorage.getItem("isLoggedIn") === "true" ? true : false,
   loading: false,
 };
 
