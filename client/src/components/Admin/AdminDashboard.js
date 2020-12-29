@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../../context/Auth/AuthProvider";
-import { Button } from "../shared/Button";
 import { Navbar } from "../shared/Navbar";
 import { Header } from "../shared/Header";
 
@@ -8,7 +7,7 @@ export const AdminDashboard = () => {
   const { logout } = useContext(AuthContext);
   return (
     <div>
-      <Navbar />
+      <Navbar signOut={logout} />
       <Header />
 
       <main>
@@ -18,13 +17,6 @@ export const AdminDashboard = () => {
           </div>
         </div>
       </main>
-
-      <Button
-        onClick={() => logout()}
-        type='submit'
-        label='logout'
-        svgBool={false}
-      />
     </div>
   );
 };
