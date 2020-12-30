@@ -71,8 +71,91 @@ exports.getAllEmployees = async (req, res) => {
     const employees = await Employee.find({});
     return res.status(200).json({
       success: true,
+      count: employees.length,
       message: "Employees loaded succesfully!",
       employees: employees,
+    });
+  } catch (err) {
+    console.log(err.message);
+    return errorHandler(res, "Server Error", 500);
+  }
+};
+
+// @route   GET api/v1/admin/employee/:id
+// @dsc     Get Employee by id
+// @access  Private
+exports.getEmployeeById = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return errorHandler(res, "Incorrect email", 400);
+  }
+  try {
+    const employee = await Employee.findById(req.params.id);
+    if (!employee) {
+      return errorHandler(res, "employee not found", 404);
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Employee loaded succesfully!",
+      employee: employee,
+    });
+  } catch (err) {
+    console.log(err.message);
+    return errorHandler(res, "Server Error", 500);
+  }
+};
+
+// @route   PUT api/v1/admin/employee/:id
+// @dsc     Edit Employee by id
+// @access  Private
+exports.updateEmployeeById = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return errorHandler(res, "Incorrect email", 400);
+  }
+  try {
+    let employee = await Employee.findById(req.params.id);
+    if (!employee) {
+      return errorHandler(res, "employee not found", 404);
+    }
+    const { name, email, password, role, team, salary } = req.body;
+    employee.name = name;
+    employee.email = email;
+    employee.password = await argon2.hash(password);
+    employee.role = role;
+    employee.team = team;
+    employee.salary = salary;
+
+    await employee.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Employee updated succesfully!",
+      employee: employee,
+    });
+  } catch (err) {
+    console.log(err.message);
+    return errorHandler(res, "Server Error", 500);
+  }
+};
+
+// @route   DELETE api/v1/admin/employee/:id
+// @dsc     Delete Employee by id
+// @access  Private
+exports.deleteEmployeeById = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return errorHandler(res, "Incorrect email", 400);
+  }
+  try {
+    let employee = await Employee.findById(req.params.id);
+    if (!employee) {
+      return errorHandler(res, "employee not found", 404);
+    }
+    await employee.delete();
+    return res.status(200).json({
+      success: true,
+      message: "Employee deleted succesfully!",
     });
   } catch (err) {
     console.log(err.message);

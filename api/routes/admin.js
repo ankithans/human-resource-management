@@ -6,6 +6,9 @@ const {
   loginAdmin,
   addEmployee,
   getAllEmployees,
+  getEmployeeById,
+  updateEmployeeById,
+  deleteEmployeeById,
 } = require("../controllers/admin");
 
 router
@@ -17,5 +20,10 @@ router
 
 router.route("/addEmployee").post(Auth, addEmployee);
 router.route("/getAllEmployees").get(Auth, getAllEmployees);
+router
+  .route("/employee/:id")
+  .get(Auth, getEmployeeById)
+  .put(Auth, updateEmployeeById)
+  .delete(Auth, deleteEmployeeById);
 
 module.exports = router;
