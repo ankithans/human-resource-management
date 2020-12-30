@@ -34,10 +34,10 @@ export const AdminProvider = ({ children }) => {
 
       console.log(res.data.employees);
 
-      addToast("Employee Data loaded Successfully!", {
-        appearance: "success",
-        autoDismiss: true,
-      });
+      //   addToast("Employee Data loaded Successfully!", {
+      //     appearance: "success",
+      //     autoDismiss: true,
+      //   });
 
       dispatch({
         type: "EMPLOYEES_LOADED",
@@ -56,6 +56,45 @@ export const AdminProvider = ({ children }) => {
     }
   }
 
+  async function addEmployee(employee) {
+    try {
+      dispatch({
+        type: "EMPLOYEES_LOADING",
+      });
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": localStorage.getItem("token"),
+        },
+      };
+      const res = await axios.post(
+        "/api/v1/admin/addEmployee",
+        employee,
+        config
+      );
+
+      console.log(res.data.data);
+
+      addToast(res.data.message, {
+        appearance: "success",
+        autoDismiss: true,
+      });
+
+      dispatch({
+        type: "EMPLOYEE_ADDED",
+      });
+    } catch (err) {
+      addToast(err.response.data.error, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+
+      dispatch({
+        type: "ERROR",
+        payload: err.response.data.error,
+      });
+    }
+  }
   return (
     <AdminContext.Provider
       value={{
@@ -63,6 +102,7 @@ export const AdminProvider = ({ children }) => {
         loading: state.loading,
         employees: state.employees,
         getAllEmployees,
+        addEmployee,
       }}
     >
       {children}

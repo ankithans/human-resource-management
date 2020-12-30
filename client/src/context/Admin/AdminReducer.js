@@ -13,6 +13,11 @@ export default (state, action) => {
         loading: false,
         employees: action.payload,
       };
+    case "EMPLOYEE_ADDED":
+      return {
+        ...state,
+        loading: false,
+      };
     case "ERROR":
       return {
         ...state,
