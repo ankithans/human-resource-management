@@ -9,7 +9,7 @@ const Admin = require("../models/admin");
 exports.loginAdmin = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return errorHandler(res, errors.array(), 400);
+    return errorHandler(res, "Incorrect email", 400);
   }
   try {
     const { email, password } = req.body;

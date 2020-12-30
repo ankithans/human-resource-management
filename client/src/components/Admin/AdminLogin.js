@@ -3,9 +3,10 @@ import { SignInHeader } from "../shared/SignInHeader";
 import { Button } from "../shared/Button";
 import { TextBox } from "../shared/TextBox";
 import { AuthContext } from "../../context/Auth/AuthProvider";
+import Loader from "react-loader-spinner";
 
 export default function AdminLogin() {
-  const { adminLogin, loading } = useContext(AuthContext);
+  const { adminLogin, loading, error } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -18,13 +19,6 @@ export default function AdminLogin() {
     });
   };
 
-  if (loading) {
-    return (
-      <div className='min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px8'>
-        Loading
-      </div>
-    );
-  }
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px8'>
       <div className='max-w-md w-full space-y-8'>
@@ -53,7 +47,18 @@ export default function AdminLogin() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <Button type='submit' label='Sign in' svgBool={true} />
+          {loading ? (
+            <Loader
+              className='w-full flex justify-center'
+              type='Oval'
+              color='#00BFFF'
+              height={40}
+              width={40}
+              timeout={3000}
+            />
+          ) : (
+            <Button type='submit' label='Sign in' svgBool={true} />
+          )}
         </form>
       </div>
     </div>

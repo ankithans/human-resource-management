@@ -18,6 +18,11 @@ export default (state, action) => {
         isLoggedIn: false,
         loading: false,
       };
+    case "LOGIN_ERROR":
+      return {
+        ...state,
+        loading: false,
+      };
     default:
       return state;
   }
