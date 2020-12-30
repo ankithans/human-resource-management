@@ -5,6 +5,7 @@ export default (state, action) => {
       return {
         ...state,
         loading: true,
+        employees: [],
       };
     case "EMPLOYEES_LOADED":
       return {

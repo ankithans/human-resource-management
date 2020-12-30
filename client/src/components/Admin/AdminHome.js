@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { TableRow } from "../shared/TableRow";
 import { Link } from "react-router-dom";
+import { AdminContext } from "../../context/Admin/AdminProvider";
 
 export const AdminHome = () => {
+  const { loading, getAllEmployees, employees } = useContext(AdminContext);
+
+  useEffect(() => {
+    getAllEmployees();
+  }, []);
+
   return (
     <div>
       <main>
@@ -10,7 +17,7 @@ export const AdminHome = () => {
           <div className='px-4 py-6 sm:px-0'>
             <div className='text-xs text-right pb-5 sm:text-sm'>
               <Link to='/admin/addEmployee'>
-                <button class='inline-flex items-center h-10 px-3 text-indigo-100 transition-colors duration-150 bg-indigo-600 rounded-lg focus:shadow-outline hover:bg-indigo-700'>
+                <button className='inline-flex items-center h-10 px-3 text-indigo-100 transition-colors duration-150 bg-indigo-600 rounded-lg focus:shadow-outline hover:bg-indigo-700'>
                   <img
                     className='w-6 pr-2'
                     src='https://img.icons8.com/metro/26/ffffff/plus.png'
@@ -56,66 +63,19 @@ export const AdminHome = () => {
                         </tr>
                       </thead>
                       <tbody className='bg-white divide-y divide-gray-200'>
-                        <TableRow
-                          image='https://image.shutterstock.com/image-vector/male-silhouette-avatar-profile-picture-260nw-199246382.jpg'
-                          name='Ankit Hans'
-                          email='ankithans1947@gmail.com'
-                          title='Software Engineer'
-                          subtitle='Analyst'
-                          status='present'
-                          role='employee'
-                          edit={() => {}}
-                        />
-                        <TableRow
-                          image='https://image.shutterstock.com/image-vector/male-silhouette-avatar-profile-picture-260nw-199246382.jpg'
-                          name='Ankit Hans'
-                          email='ankithans1947@gmail.com'
-                          title='Software Engineer'
-                          subtitle='Analyst'
-                          status='present'
-                          role='employee'
-                          edit={() => {}}
-                        />{" "}
-                        <TableRow
-                          image='https://image.shutterstock.com/image-vector/male-silhouette-avatar-profile-picture-260nw-199246382.jpg'
-                          name='Ankit Hans'
-                          email='ankithans1947@gmail.com'
-                          title='Software Engineer'
-                          subtitle='Analyst'
-                          status='present'
-                          role='employee'
-                          edit={() => {}}
-                        />
-                        <TableRow
-                          image='https://image.shutterstock.com/image-vector/male-silhouette-avatar-profile-picture-260nw-199246382.jpg'
-                          name='Ankit Hans'
-                          email='ankithans1947@gmail.com'
-                          title='Software Engineer'
-                          subtitle='Analyst'
-                          status='present'
-                          role='employee'
-                          edit={() => {}}
-                        />{" "}
-                        <TableRow
-                          image='https://image.shutterstock.com/image-vector/male-silhouette-avatar-profile-picture-260nw-199246382.jpg'
-                          name='Ankit Hans'
-                          email='ankithans1947@gmail.com'
-                          title='Software Engineer'
-                          subtitle='Analyst'
-                          status='present'
-                          role='employee'
-                          edit={() => {}}
-                        />{" "}
-                        <TableRow
-                          image='https://image.shutterstock.com/image-vector/male-silhouette-avatar-profile-picture-260nw-199246382.jpg'
-                          name='Ankit Hans'
-                          email='ankithans1947@gmail.com'
-                          title='Software Engineer'
-                          subtitle='Analyst'
-                          status='present'
-                          role='employee'
-                          edit={() => {}}
-                        />
+                        {employees.map((e) => (
+                          <TableRow
+                            key={e.id}
+                            image='https://image.shutterstock.com/image-vector/male-silhouette-avatar-profile-picture-260nw-199246382.jpg'
+                            name={e.name}
+                            email={e.email}
+                            title={e.role}
+                            subtitle={e.team}
+                            status={`₹ ${e.salary}`}
+                            role={e.role}
+                            edit={() => {}}
+                          />
+                        ))}
                       </tbody>
                     </table>
                   </div>

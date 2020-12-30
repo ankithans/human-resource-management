@@ -32,7 +32,7 @@ export const AdminProvider = ({ children }) => {
       };
       const res = await axios.get("/api/v1/admin/getAllEmployees", config);
 
-      console.log(res);
+      console.log(res.data.employees);
 
       addToast("Employee Data loaded Successfully!", {
         appearance: "success",
@@ -61,6 +61,7 @@ export const AdminProvider = ({ children }) => {
       value={{
         isLoggedIn: state.isLoggedIn,
         loading: state.loading,
+        employees: state.employees,
         getAllEmployees,
       }}
     >

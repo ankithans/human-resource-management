@@ -6,7 +6,7 @@ import { AuthContext } from "../../context/Auth/AuthProvider";
 import Loader from "react-loader-spinner";
 
 export default function AdminLogin() {
-  const { adminLogin, loading, error } = useContext(AuthContext);
+  const { adminLogin, loading } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
