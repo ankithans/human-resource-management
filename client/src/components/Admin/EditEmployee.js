@@ -1,34 +1,40 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AdminContext } from "../../context/Admin/AdminProvider";
+import { useParams } from "react-router-dom";
 
-export const AddEmployee = ({ props }) => {
-  const { loading, addEmployee, updateEmployee } = useContext(AdminContext);
-  const [name, setName] = useState(props.name);
-  const [email, setEmail] = useState(props.email);
-  const [password, setPassword] = useState(props.password);
-  const [role, setRole] = useState(props.role);
-  const [team, setTeam] = useState(props.team);
-  const [salary, setSalary] = useState(props.salary);
+export const EditEmployee = ({ props }) => {
+  const { loading, updateEmployee, getEmployeeById, employee } = useContext(
+    AdminContext
+  );
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
+  const [team, setTeam] = useState("");
+  const [salary, setSalary] = useState("");
 
   const onSubmit = () => {
-    !props.update
-      ? addEmployee({
-          name: name,
-          email: email,
-          password: password,
-          role: role,
-          team: team,
-          salary: salary,
-        })
-      : updateEmployee({
-          name: name,
-          email: email,
-          password: password,
-          role: role,
-          team: team,
-          salary: salary,
-        });
+    updateEmployee({
+      name: name,
+      email: email,
+      password: password,
+      role: role,
+      team: team,
+      salary: salary,
+    });
   };
+
+  const { id } = useParams();
+  useEffect(async () => {
+    console.log(id);
+    getEmployeeById(id);
+    setName(employee.name);
+    setEmail(employee.email);
+    setPassword(employee.password);
+    setRole(employee.role);
+    setTeam(employee.team);
+    setSalary(employee.salary);
+  }, []);
 
   return (
     <form
@@ -74,7 +80,7 @@ export const AddEmployee = ({ props }) => {
                 <input
                   type='email'
                   className='w-11/12 focus:outline-none focus:text-gray-600 p-2'
-                  placeholder='email@example.com'
+                  placeholder={employee.email}
                   value={email}
                   required
                   onChange={(e) => setEmail(e.target.value)}
@@ -107,7 +113,7 @@ export const AddEmployee = ({ props }) => {
                   <input
                     type='text'
                     className='w-11/12 focus:outline-none focus:text-gray-600 p-2'
-                    placeholder='Charly Olivas'
+                    placeholder={employee.name}
                     value={name}
                     required
                     onChange={(e) => setName(e.target.value)}
@@ -141,7 +147,7 @@ export const AddEmployee = ({ props }) => {
                   <input
                     type='text'
                     className='w-11/12 focus:outline-none focus:text-gray-600 p-2'
-                    placeholder='Software Engineer'
+                    placeholder={employee.role}
                     value={role}
                     required
                     onChange={(e) => setRole(e.target.value)}
@@ -169,7 +175,7 @@ export const AddEmployee = ({ props }) => {
                   <input
                     type='text'
                     className='w-11/12 focus:outline-none focus:text-gray-600 p-2'
-                    placeholder='team name'
+                    placeholder={employee.team}
                     value={team}
                     required
                     onChange={(e) => setTeam(e.target.value)}
@@ -188,7 +194,7 @@ export const AddEmployee = ({ props }) => {
                   <input
                     type='text'
                     className='w-11/12 focus:outline-none focus:text-gray-600 p-2'
-                    placeholder='Salary'
+                    placeholder={employee.salary}
                     value={salary}
                     required
                     onChange={(e) => setSalary(e.target.value)}
@@ -221,7 +227,7 @@ export const AddEmployee = ({ props }) => {
                 <input
                   type='password'
                   className='w-11/12 focus:outline-none focus:text-gray-600 p-2 ml-4'
-                  placeholder='New'
+                  placeholder={employee.password}
                   value={password}
                   required
                   onChange={(e) => setPassword(e.target.value)}
@@ -236,7 +242,7 @@ export const AddEmployee = ({ props }) => {
                 className='w-6 pr-2'
                 src='https://img.icons8.com/metro/26/ffffff/plus.png'
               />
-              <span>{!props.update ? "Add Employee" : "Update Employee"}</span>
+              <span>Update Employee</span>
             </button>
           </div>
         </div>

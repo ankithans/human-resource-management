@@ -8,6 +8,7 @@ const initialState = {
   isLoggedIn: localStorage.getItem("isLoggedIn") === "true" ? true : false,
   loading: false,
   employees: [],
+  employee: {},
 };
 
 // create context
@@ -95,14 +96,95 @@ export const AdminProvider = ({ children }) => {
       });
     }
   }
+
+  async function updateEmployee(employee, id) {
+    try {
+      dispatch({
+        type: "EMPLOYEES_LOADING",
+      });
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": localStorage.getItem("token"),
+        },
+      };
+      const res = await axios.put(
+        "/api/v1/admin/employee/id",
+        employee,
+        config
+      );
+
+      console.log(res.data.data);
+
+      addToast(res.data.message, {
+        appearance: "success",
+        autoDismiss: true,
+      });
+
+      dispatch({
+        type: "EMPLOYEE_ADDED",
+      });
+    } catch (err) {
+      addToast(err.response.data.error, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+
+      dispatch({
+        type: "ERROR",
+        payload: err.response.data.error,
+      });
+    }
+  }
+
+  async function getEmployeeById(id) {
+    try {
+      dispatch({
+        type: "EMPLOYEES_LOADING",
+      });
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": localStorage.getItem("token"),
+        },
+      };
+      const res = await axios.get(`/api/v1/admin/employee/${id}`, config);
+
+      console.log(res.data.employee);
+
+      //   addToast("Employee Data loaded Successfully!", {
+      //     appearance: "success",
+      //     autoDismiss: true,
+      //   });
+
+      dispatch({
+        type: "EMPLOYEE_LOADED",
+        payload: res.data.employee,
+      });
+    } catch (err) {
+      addToast(err.response.data.error, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+
+      dispatch({
+        type: "ERROR",
+        payload: err.response.data.error,
+      });
+    }
+  }
+
   return (
     <AdminContext.Provider
       value={{
         isLoggedIn: state.isLoggedIn,
         loading: state.loading,
         employees: state.employees,
+        employee: state.employee,
         getAllEmployees,
         addEmployee,
+        updateEmployee,
+        getEmployeeById,
       }}
     >
       {children}

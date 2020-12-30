@@ -1,4 +1,6 @@
 import React from "react";
+import { Link, Route } from "react-router-dom";
+import { EditEmployee } from "../Admin/EditEmployee";
 
 export const TableRow = ({
   image,
@@ -9,6 +11,7 @@ export const TableRow = ({
   status,
   role,
   edit,
+  to,
 }) => {
   return (
     <tr>
@@ -36,13 +39,12 @@ export const TableRow = ({
         {role}
       </td>
       <td className='px-6 py-4 whitespace-nowrap text-right text-sm font-medium'>
-        <a
+        <button
           onClick={edit}
-          href='#'
           className='text-indigo-600 hover:text-indigo-900'
         >
           Edit
-        </a>
+        </button>
       </td>
     </tr>
   );

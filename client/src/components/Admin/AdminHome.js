@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import { TableRow } from "../shared/TableRow";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { AdminContext } from "../../context/Admin/AdminProvider";
 
 export const AdminHome = () => {
   const { loading, getAllEmployees, employees } = useContext(AdminContext);
+  const history = useHistory();
 
   useEffect(() => {
     getAllEmployees();
@@ -65,7 +66,7 @@ export const AdminHome = () => {
                       <tbody className='bg-white divide-y divide-gray-200'>
                         {employees.map((e) => (
                           <TableRow
-                            key={e.id}
+                            key={e._id}
                             image='https://image.shutterstock.com/image-vector/male-silhouette-avatar-profile-picture-260nw-199246382.jpg'
                             name={e.name}
                             email={e.email}
@@ -73,7 +74,9 @@ export const AdminHome = () => {
                             subtitle={e.team}
                             status={`₹ ${e.salary}`}
                             role={e.role}
-                            edit={() => {}}
+                            edit={() => {
+                              history.push(`/admin/editEmployee/${e._id}`);
+                            }}
                           />
                         ))}
                       </tbody>
